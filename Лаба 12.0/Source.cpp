@@ -71,7 +71,7 @@ void add(NodePtr* s, int val)
 int menu()
 {
 	int ch = 0;
-	while (ch < 1 || ch > 7) {
+	while (ch < 1 || ch > 9) {
 		printf("\n\nВыберете действие\n\n");
 		printf("----------------------------------------");
 		printf("\n| 1. Добавить элемент списка           |\n");
@@ -86,7 +86,11 @@ int menu()
 		printf("----------------------------------------");
 		printf("\n| 6. Удалить все вхождения числа       |\n");
 		printf("----------------------------------------");
-		printf("\n| 7. Выход                             |\n");
+		printf("\n| 7. Ввести элемент до определенного   |\n");
+		printf("----------------------------------------");
+		printf("\n| 8. Ввести после определенного        |\n");
+		printf("----------------------------------------");
+		printf("\n| 9. Выход                             |\n");
 		printf("----------------------------------------");
 
 		printf("\n\nВаш выбор: ");
@@ -143,7 +147,7 @@ void FindMin(NodePtr cur)
 		int min = cur->num;
 		while (cur != NULL)
 		{
-			if (min < cur->num)
+			if (min > cur->num)
 				min = cur->num;
 			cur = cur->next;
 		}
@@ -228,6 +232,90 @@ void delRep(NodePtr* s, int number)
 	}
 }
 
+void insAft(NodePtr* s, int value)
+{
+	if (*s == NULL) {
+		cout << "\nThe list is empty";
+		return;
+	}
+
+	cout << "\nВведите после какого хотите ввести число: ";
+	int a;
+
+	while (1)
+	{
+		a = vvod();
+		if (a > sizeL || a < 1)
+		{
+			cout << "\nНе подходит, попробуйте еще раз: ";
+		}
+		else break;
+	}
+
+	NodePtr newP, cur;
+
+	newP = (NodePtr)malloc(sizeof(Node));
+
+	newP->num = value;
+	newP->next = NULL;
+	cur = *s;
+
+	for (int i = 1; i < a; i++)
+	{
+		cur = cur->next;
+	}
+
+	newP->next = cur->next;
+	cur->next = newP;
+	sizeL++;
+}
+
+void insBef(NodePtr* s, int value)
+{
+	if (*s == NULL) {
+		cout << "\nThe list is empty";
+		return;
+	}
+
+	cout << "\nВведите до какого хотите ввести число: ";
+	int a;
+
+	while (1)
+	{
+		a = vvod();
+		if (a > sizeL || a < 1)
+		{
+			cout << "\nНе подходит, попробуйте еще раз: ";
+		}
+		else break;
+	}
+
+	NodePtr newP, cur;
+
+	newP = (NodePtr)malloc(sizeof(Node));
+
+	newP->num = value;
+	newP->next = NULL;
+	cur = *s;
+
+	if (a == 1)
+	{
+		(*s) = newP;
+		(*s)->next = cur;
+		sizeL++;
+		return;
+	}
+
+	for (int i = 1; i < a - 1; i++)
+	{
+		cur = cur->next;
+	}
+
+	newP->next = cur->next;
+	cur->next = newP;
+
+	sizeL++;
+}
 
 int main()
 {
@@ -271,6 +359,18 @@ int main()
 			break;
 
 		case 7:
+			cout << "\nВведите число которое хотите добавить: ";
+			elem = vvod();
+			insBef(&start, elem);
+			break;
+
+		case 8:
+			cout << "\nВведите число которое хотите добавить: ";
+			elem = vvod();
+			insAft(&start, elem);
+			break;
+
+		case 9:
 			return 0;
 		}
 	}
